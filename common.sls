@@ -1,3 +1,2 @@
-common:
-  include:
-    - timezone
+include:
+  - timezone
