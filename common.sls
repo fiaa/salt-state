@@ -2,6 +2,7 @@ include:
   - timezone
   - hostsfile
   - resolver
+  - vim
 
 {% set to_be_installed_pkgs = pillar.get('common_packages', []) %}
 common_packages:
