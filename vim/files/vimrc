@@ -1,0 +1,80 @@
+{% set config   = salt['pillar.get']('vim:config', {}) -%}
+{% set settings = salt['pillar.get']('vim:settings', {}) -%}
+{% set mappings = salt['pillar.get']('vim:mappings', {}) -%}
+{% set lets = salt['pillar.get']('vim:lets', {}) -%}
+{% set allow_localrc = salt['pillar.get']('vim:allow_localrc', {}) -%}
+
+{% macro set_config(config, prefix='') -%}
+{% for parameter in config | sort -%}
+{% set value = config.get(parameter) -%}
+{% if value is mapping -%}
+{{ set_config(value, prefix=prefix+parameter+' ') }}
+{%- elif value is sequence and value is not string -%}
+{% for item in value -%}
+{{ prefix }}{{ parameter }} {{ item }}
+{% endfor -%}
+{%- elif value is not none -%}
+{{ prefix }}{{ parameter }} {{ value }}
+{% endif -%}
+{% endfor -%}
+{% endmacro -%}
+
+{% macro set_setting(parameter, default=None) -%}
+{% set value = settings.get(parameter, default) -%}
+{% if value is not none -%}
+set {{ parameter }}={{ value }}
+{% else -%}
+set {{ parameter }}
+{% endif -%}
+{% endmacro -%}
+
+{% macro set_mapping(parameter, default=None) -%}
+{% set value = mappings.get(parameter, default) -%}
+{% if value is not none -%}
+map {{ parameter }} {{ value }}
+{% endif -%}
+{% endmacro -%}
+
+{% macro set_let(parameter, default=None) -%}
+{% set value = lets.get(parameter, default) -%}
+{% if value is not none -%}
+let {{ parameter }} = {{ value }}
+{% endif -%}
+{% endmacro -%}
+
+{%- if grains['os'] == 'Arch' -%}
+runtime! archlinux.vim
+{% endif -%}
+
+{%- if grains['os'] == 'Debian' -%}
+runtime! debian.vim
+{% endif -%}
+
+{%- if config -%}
+{{ set_config(config) }}
+{% endif -%}
+
+{%- if settings -%}
+{% for parameter in settings | sort -%}
+{{ set_setting(parameter) }}
+{%- endfor %}
+{% endif -%}
+
+{%- if mappings -%}
+{% for parameter in mappings | sort -%}
+{{ set_mapping(parameter) }}
+{%- endfor %}
+{% endif -%}
+
+{%- if lets -%}
+{% for parameter in lets | sort -%}
+{{ set_let(parameter) }}
+{%- endfor %}
+{% endif -%}
+
+{%- if allow_localrc == True %}
+if filereadable("{{ config_root }}/vimrc.local")
+    source {{ config_root }}/vimrc.local
+endif
+{% endif -%}
+
