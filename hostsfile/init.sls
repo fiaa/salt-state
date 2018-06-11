@@ -15,10 +15,6 @@
 {%- set hosts = {} %}
 {%- set pillar_hosts = salt['pillar.get']('hostsfile:hosts', {}) %}
 {%- set pillar_only = salt['pillar.get']('hostsfile:only', {}) %}
-{%- set mine_hosts = salt['mine.get'](minions, minealias, expr_form=minions_type) %}
-{%- if mine_hosts is defined %}
-{%-   do hosts.update(mine_hosts) %}
-{%- endif %}
 {%- do hosts.update(pillar_hosts) %}
 
 {%- set domain = salt.pillar.get('hostsfile:domain', '') %}
