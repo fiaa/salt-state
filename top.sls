@@ -19,3 +19,6 @@ base:
 
   'G@roles:sensu and G@sensu_roles:uchiwa':
     - sensu.uchiwa
+
+  'G@roles:rabbitmq':
+    - rabbitmq
