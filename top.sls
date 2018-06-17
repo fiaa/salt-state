@@ -22,3 +22,9 @@ base:
 
   'G@roles:rabbitmq':
     - rabbitmq
+
+  'G@roles:redis':
+    - redis.server
+
+  'G@roles:redis and G@redis_roles:sentinel':
+    - redis.sentinel
