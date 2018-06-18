@@ -1,0 +1,54 @@
+{% set load_warn = '1.75,1.5,1.0' -%}
+{% set load_crit = '3.5,3.25,3.0' -%}
+{% set cpu_warn = 85 -%}
+{% set cpu_crit = 95 -%}
+{% set mem_per_warn = 85 -%}
+{% set mem_per_crit = 95 -%}
+{% set mem_warn = 2000 -%}
+{% set mem_crit = 1000 -%}
+{% set swap_per_warn = 85 -%}
+{% set swap_per_crit = 95 -%}
+{% set swap_warn = 2000 -%}
+{% set swap_crit = 100 -%}
+
+{
+  "checks": {
+    "check-system-load": {
+      "command": "/etc/sensu/plugins/load/check-load.rb -w {{ load_warn }} -c {{ load_crit }}",
+      "handlers": ["default"],
+      "interval": 60,
+      "subscribers": [ "all" ]
+    {#  "standalone": true #}
+    },
+    "check-system-cpu": {
+      "command": "/etc/sensu/plugins/cpu/check-cpu.rb -w {{ cpu_warn }} -c {{ cpu_crit }}",
+      "handlers": ["default"],
+      "interval": 60,
+      "subscribers": [ "all" ]
+    },
+    "check-system-memory-per": {
+      "command": "/etc/sensu/plugins/memory/check-memory-percent.rb -w {{ mem_per_warn }} -c {{ mem_per_crit }}",
+      "handlers": ["default"],
+      "interval": 60,
+      "subscribers": [ "all" ]
+    },
+    "check-system-memory": {
+      "command": "/etc/sensu/plugins/memory/check-memory.rb -w {{ mem_warn }} -c {{ mem_crit }}",
+      "handlers": ["default"],
+      "interval": 60,
+      "subscribers": [ "all" ]
+    },
+    "check-system-swap-per": {
+      "command": "/etc/sensu/plugins/memory/check-swap-percent.rb -w {{ swap_per_warn }} -c {{ swap_per_crit }}",
+      "handlers": ["default"],
+      "interval": 60,
+      "subscribers": [ "all" ]
+    },
+    "check-system-swap": {
+      "command": "/etc/sensu/plugins/memory/check-swap.rb -w {{ swap_warn }} -c {{ swap_crit }}",
+      "handlers": ["default"],
+      "interval": 60,
+      "subscribers": [ "all" ]
+    }
+  }
+}
