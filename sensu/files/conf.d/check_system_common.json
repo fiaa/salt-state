@@ -1,3 +1,4 @@
+{# Have to applied the pillar instead of this hard codes #}
 {% set load_warn = '1.75,1.5,1.0' -%}
 {% set load_crit = '3.5,3.25,3.0' -%}
 {% set cpu_warn = 85 -%}
