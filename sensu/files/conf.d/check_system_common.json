@@ -10,6 +10,8 @@
 {% set swap_per_crit = 95 -%}
 {% set swap_warn = 2000 -%}
 {% set swap_crit = 100 -%}
+{% set disk_usage_warn = 80 -%}
+{% set disk_usage_crit = 90 -%}
 
 {
   "checks": {
@@ -46,6 +48,12 @@
     },
     "check-system-swap": {
       "command": "/etc/sensu/plugins/memory/check-swap.rb -w {{ swap_warn }} -c {{ swap_crit }}",
+      "handlers": ["default"],
+      "interval": 60,
+      "subscribers": [ "all" ]
+    },
+    "check-system-disk": {
+      "command": "/etc/sensu/plugins/disk/check-disk-usage.rb -w {{ disk_usage_warn }} -c {{ disk_usage_crit }}",
       "handlers": ["default"],
       "interval": 60,
       "subscribers": [ "all" ]
