@@ -16,9 +16,6 @@ bind {{ redis_settings.sentinel.bind }}
 {%- if redis_settings.sentinel['protected-mode'] is defined %}
 protected-mode {{ redis_settings.sentinel['protected-mode'] }}
 {%- endif %}
-{%- if redis_settings.sentinel['requirepass'] is defined %}
-requirepass {{ redis_settings.sentinel['requirepass'] }}
-{%- endif %}
 port {{ redis_settings.sentinel.port }}
 logfile {{ redis_settings.sentinel_logfile }}
 {%- if redis_settings.sentinel['announce-ip'] is defined %}
