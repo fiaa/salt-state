@@ -7,8 +7,8 @@
 {%- if redis_settings.sentinel.daemonize is defined %}
 daemonize {{ redis_settings.sentinel.daemonize }}
 {%- endif %}
-{%- if redis_settings.sentinel.sentinel_pidfile is defined %}
-pidfile {{ redis_settings.sentinel.sentinel_pidfile }}
+{%- if redis_settings.sentinel.pidfile is defined %}
+pidfile {{ redis_settings.sentinel.pidfile }}
 {%- endif %}
 {%- if redis_settings.sentinel.bind is defined %}
 bind {{ redis_settings.sentinel.bind }}
