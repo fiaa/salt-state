@@ -9,7 +9,7 @@ include:
 common_packages:
   pkg.installed:
     - order: 1
-    - pkgs:
-{% for things in to_be_installed_pkgs %}
-      - {{ things }}
-{% endfor %}
+    - pkgs: {{ to_be_installed_pkgs|json }}
+#{% for things in to_be_installed_pkgs %}
+#      - {{ things }}
+#{% endfor %}
